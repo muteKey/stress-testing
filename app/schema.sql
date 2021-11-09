@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS request;
+
+CREATE TABLE request (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  url TEXT NOT NULL,
+  body TEXT,
+  method TEXT NOT NULL
+);
