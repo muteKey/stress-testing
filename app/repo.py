@@ -1,6 +1,8 @@
 from app.db import get_db
 import redis
-from datetime import datetime
+from datetime import datetime, timedelta
+import math
+import random
 
 class Repository:
     def __init__(self):
@@ -20,6 +22,21 @@ class Repository:
             error = f"Cannot save request"
 
     def get_metrics(self, request):
+        key = request.path
+        ttl = self.cache.ttl(key)
+        (value, delta) = self.cache.get(key)
+        now = datetime.now()
+        expiry = now + timedelta(seconds=ttl)
+        random_expiry = delta * math.log(random(0, 1))
+        if not value or now - random_expiry > expiry:
+            start = datetime.now()
+            metrics = self.fetch_metrics(request)
+            delta = datetime.timestamp(datetime.now() - start) 
+            self.cache.set(key, (metrics, delta))
+        return value
+
+
+    def fetch_metrics(self, request):
         cursor = get_db().cursor()
         cursor.execute("SELECT * FROM metric where url_path=?", (request.path,))
         rows = cursor.fetchall()
