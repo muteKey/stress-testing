@@ -1,30 +1,26 @@
-import functools
-
 from flask import (
-    Blueprint, flash, g, redirect, request, session, url_for
+    Blueprint, request
 )
 
-from app.db import get_db
+from .repo import Repository
 
 bp = Blueprint('views', __name__, url_prefix='/')
 
-
-def save_request(request):
-    db = get_db()
-    try:
-        db.execute("INSERT INTO request (url, body, method) VALUES (?, ?, ?)",
-            (request.url,request.data, request.method)
-        )
-        db.commit()
-    except db.IntegrityError:
-        error = f"Cannot save request"
+repository = Repository()
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
-    save_request(request)
+    repository.save_request(request)
+    print(request.path)
+    result = repository.get_metrics(request)
+    if result:
+        return f"<h1>Metric for index page is {result['metric']}</h1>"
     return "<h1>This is index page</h1>"
 
 @bp.route('/hello', methods=('GET', 'POST'))
 def hello():
-    save_request(request)
+    repository.save_request(request)
+    result = repository.get_metrics(request)
+    if result:
+        return f"<h1>Metric for hello page is {result['metric']}</h1>"
     return "<h1>This is greeting page</h1>"

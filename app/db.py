@@ -35,7 +35,6 @@ def seed_db():
                 ("/hello", 15)]
     connection.executemany('INSERT INTO metric (url_path, metric) VALUES(?,?);',metrics)
     connection.commit()
-    connection.close()
 
 def close_db(e=None):
     db = g.pop('db', None)
