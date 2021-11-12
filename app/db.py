@@ -26,7 +26,16 @@ def init_db():
 def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
+    seed_db()
     click.echo('Initialized the database.')
+
+def seed_db():
+    connection = get_db()
+    metrics = [("/", 10),
+                ("/hello", 15)]
+    connection.executemany('INSERT INTO metric (url_path, metric) VALUES(?,?);',metrics)
+    connection.commit()
+    connection.close()
 
 def close_db(e=None):
     db = g.pop('db', None)

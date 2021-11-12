@@ -1,8 +1,16 @@
 DROP TABLE IF EXISTS request;
+DROP TABLE IF EXISTS metric;
 
 CREATE TABLE request (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   url TEXT NOT NULL,
   body TEXT,
-  method TEXT NOT NULL
+  method TEXT NOT NULL,
+  timestamp TEXT
+);
+
+CREATE TABLE metric (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  url_path TEXT NOT NULL,
+  metric INTEGER NOT NULL
 );
