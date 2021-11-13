@@ -23,18 +23,35 @@ class Repository:
 
     def get_metrics(self, request):
         key = request.path
+        delta_key = key + '_delta'
+
+        if not self.cache.exists(key):
+            self.__cache(request)
         ttl = self.cache.ttl(key)
-        (value, delta) = self.cache.get(key)
+        value = int(self.cache.get(key)) if self.cache.get(key) else 0
+        delta = float(self.cache.get(delta_key)) if self.cache.get(delta_key) else 0
+
         now = datetime.now()
         expiry = now + timedelta(seconds=ttl)
-        random_expiry = delta * math.log(random(0, 1))
-        if not value or now - random_expiry > expiry:
-            start = datetime.now()
-            metrics = self.fetch_metrics(request)
-            delta = datetime.timestamp(datetime.now() - start) 
-            self.cache.set(key, (metrics, delta))
+        random_expiry = datetime.fromtimestamp(delta * math.log(random.random()))
+
+        new_delta = (now - random_expiry).total_seconds()
+        new_delta = datetime.fromtimestamp(new_delta)
+
+        if not value or new_delta > expiry:
+            self.__cache(request)
         return value
 
+    def __cache(self, request):
+        key = request.path
+        delta_key = key + '_delta'
+
+        start = datetime.now()
+        metrics = self.fetch_metrics(request)
+        delta = (datetime.now() - start).total_seconds()
+        
+        self.cache.set(key, metrics['metric'])
+        self.cache.set(delta_key, delta)
 
     def fetch_metrics(self, request):
         cursor = get_db().cursor()

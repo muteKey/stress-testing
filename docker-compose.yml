@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  redis:
+    container_name: redis-cache-server
+    image: "redis:alpine"
+
+  web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    container_name: web-page-app
+    ports: 
+      - 5000:5000
+    depends_on:
+      - redis
