@@ -1,0 +1,60 @@
+10 users:
+
+Transactions:		       10000 hits
+Availability:		      100.00 %
+Elapsed time:		       65.09 secs
+Data transferred:	        0.34 MB
+Response time:		        0.06 secs
+Transaction rate:	      153.63 trans/sec
+Throughput:		        0.01 MB/sec
+Concurrency:		        9.72
+Successful transactions:       10000
+Failed transactions:	           0
+Longest transaction:	        2.08
+Shortest transaction:	        0.01
+
+25 users:
+
+Transactions:		       24998 hits
+Availability:		       99.99 %
+Elapsed time:		      161.08 secs
+Data transferred:	        0.89 MB
+Response time:		        0.16 secs
+Transaction rate:	      155.19 trans/sec
+Throughput:		        0.01 MB/sec
+Concurrency:		       24.17
+Successful transactions:       24998
+Failed transactions:	           2
+Longest transaction:	        5.09
+Shortest transaction:	        0.00
+
+50 users:
+
+Transactions:		       49927 hits
+Availability:		       99.85 %
+Elapsed time:		      318.69 secs
+Data transferred:	        2.75 MB
+Response time:		        0.31 secs
+Transaction rate:	      156.66 trans/sec
+Throughput:		        0.01 MB/sec
+Concurrency:		       48.33
+Successful transactions:       49927
+Failed transactions:	          73
+Longest transaction:	        5.19
+Shortest transaction:	        0.01
+
+
+100 users
+Transactions:		       57611 hits
+Availability:		       98.25 %
+Elapsed time:		      405.56 secs
+Data transferred:	       16.48 MB
+Response time:		        0.70 secs
+Transaction rate:	      142.05 trans/sec
+Throughput:		        0.04 MB/sec
+Concurrency:		       99.83
+Successful transactions:       57611
+Failed transactions:	        1026
+Longest transaction:	        6.12
+Shortest transaction:	        0.01
+
